@@ -2,31 +2,6 @@
 
 A Machine Learning Inference API using MCP server architecture for sentiment analysis.
 
-## Project Structure
-
-```
-mcp-sentiment-api/
-│
-├── backend/
-│   ├── main.py
-│   ├── services/
-│   │   ├── inference.py
-│   │   └── model_loader.py
-│   ├── models/
-│   │   └── sentiment_model.pkl
-│   └── config/
-│       └── settings.py
-│
-├── frontend/
-│   └── app.py
-│
-├── data/
-│   └── sample_text.csv
-│
-├── requirements.txt
-└── README.md
-```
-
 ## Setup and Installation
 
 1. Create a virtual environment:
