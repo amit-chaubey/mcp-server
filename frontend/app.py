@@ -31,6 +31,12 @@ st.markdown("""
         width: 100%;
         font-size: 18px;
     }
+    .feature-positive {
+        color: green;
+    }
+    .feature-negative {
+        color: red;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -79,6 +85,18 @@ def call_api(text: str) -> Dict[str, Any]:
         st.error(f"Error calling API: {str(e)}")
         return None
 
+def display_feature_importance(features: list):
+    """Display feature importance with color coding"""
+    if not features:
+        return
+        
+    st.markdown("### Key Features")
+    for feature in features:
+        score = feature['score']
+        color_class = "feature-positive" if score > 0 else "feature-negative"
+        st.markdown(f"<span class='{color_class}'>• {feature['feature']} ({score:.3f})</span>", 
+                   unsafe_allow_html=True)
+
 def main():
     st.title("🤖 MCP Sentiment Analysis")
     st.markdown("---")
@@ -119,6 +137,17 @@ def main():
                 
                 # Display confidence bar
                 st.progress(confidence / 100)
+                
+                # Display probabilities
+                st.markdown("### Probability Distribution")
+                prob_col1, prob_col2 = st.columns(2)
+                with prob_col1:
+                    st.metric("Positive", f"{result['probabilities']['positive']*100:.1f}%")
+                with prob_col2:
+                    st.metric("Negative", f"{result['probabilities']['negative']*100:.1f}%")
+                
+                # Display feature importance
+                display_feature_importance(result.get('top_features', []))
                 
                 # Display original text
                 st.markdown("---")
